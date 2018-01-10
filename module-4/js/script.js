@@ -1,24 +1,36 @@
-let firstString = "qwertyuiop[]\\";
-let secondString = "asdfghjkl;'";
-let thirtString = "zxcvbnm,./";
+	
+const array = addKeyboardLayout("qwertyuiop[]asdfghjkl;'zxcvbnm,./");
+let secondTask = getRandCharInRow(prompt("Insert number of row",""));
+let thirdTask = getRandCharInAlph();
 
-const firstArray = firstString.split('');
-const secondArray = secondString.split('');
-const thirtArray = thirtString.split('');
+alert(`случайный символ со строки ${secondTask} \nслучайный символ со всего алфавита ${thirdTask}`);
 
-const summaryArray = [firstArray, secondArray, thirtArray];
+function addKeyboardLayout(alphabet) {
+	let firstString = alphabet.substr(0,alphabet.indexOf('a'));
+	let secondString = alphabet.substr(alphabet.indexOf('a'), alphabet.indexOf('z') - alphabet.indexOf('a'));
+	let thirtString =  alphabet.substr(alphabet.indexOf('z'));
 
-console.log(firstArray);
+	const firstArray = firstString.split('');
+	const secondArray = secondString.split('');
+	const thirtArray = thirtString.split('');
+		
+	return summaryArray = [firstArray, secondArray, thirtArray];
+}
 
-let hello = summaryArray[1][5] + summaryArray[0][2] + summaryArray[1][8] + summaryArray[1][8] 
-				+ summaryArray[0][8];
+function getRandCharInRow(row) {
+	let check;
+	let symbhol;
 
-let javaScript = summaryArray[1][6] + summaryArray[1][0] + summaryArray[2][3] + summaryArray[1][0] 
-				+ summaryArray[1][1] + summaryArray[2][2] + summaryArray[0][3] + summaryArray[0][7] 
-				+ summaryArray[0][9] + summaryArray[0][4];
-let trainer = summaryArray[0][4] + summaryArray[0][3] + summaryArray[1][0] + summaryArray[0][7] 
-				+ summaryArray[2][5] + summaryArray[0][2] + summaryArray[0][3];
-				
-console.log(hello);
-console.log(javaScript);
-console.log(trainer);
+	while(!check) {
+		symbhol = array[row][Math.floor(Math.random() * 11)];
+		if(symbhol) {
+			check = true;
+		}
+	}
+
+	return symbhol;
+}
+
+function getRandCharInAlph()  {
+	return getRandCharInRow([Math.floor(Math.random() * 3)]);
+}
