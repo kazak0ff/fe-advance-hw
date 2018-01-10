@@ -1,9 +1,6 @@
-const alphabet = "qwertyuiop[]asdfghjkl;'zxcvbnm,./";
-
-let firstString = alphabet.substr(0,alphabet.indexOf('a'));
-let secondString = alphabet.substr(alphabet.indexOf('a'), alphabet.indexOf('z') - alphabet.indexOf('a'));
-let thirtString =  alphabet.substr(alphabet.indexOf('z'));
-
+let firstString = "qwertyuiop[]\\";
+let secondString = "asdfghjkl;'";
+let thirtString = "zxcvbnm,./";
 
 const firstArray = firstString.split('');
 const secondArray = secondString.split('');
