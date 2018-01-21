@@ -2,10 +2,20 @@ const keyTrainer = {
     chars: ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'z', 'x', 'c', 'v', 'b', 'n', 'm'],
     charCount: '',
     setCharCount () {
-        prompt("insert count of symbhols","")
+        debugger
+        let int;
+        while(!keyTrainer.charCount) {
+            debugger
+            int = prompt("insert count of symbhols","");
+            if (keyTrainer.checkPositiveInteger(int)) keyTrainer.charCount = int;
+        }
     },
-    checkPositiveInteger () {
-
+    checkPositiveInteger (int) {
+        if (int - Math.floor(int) == 0 && int > 0 && isNaN(int) === true){
+          return true;
+        } else { 
+            return false;
+        }
     },
     task: '',
     createTask () {
@@ -18,13 +28,16 @@ const keyTrainer = {
     compareCountOfErrors() {
 
     },
-    userErrors: '',
+    userErrors: ''
 
 };
 
-run() {
-
+function run() {
+    debugger
+    keyTrainer.setCharCount();
 }
+
+run();
 
 // const enArray = addKeyboardLayout("qwertyuiop[]asdfghjkl;'zxcvbnm,./", "a", "z");
 // const uaArray = addKeyboardLayout("йцукенгшщзхїфівапролджєячсмитьбю.", "ф", "я");
