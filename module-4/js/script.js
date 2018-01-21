@@ -18,14 +18,10 @@ function addKeyboardLayout(alphabet) {
 }
 
 function getRandCharInRow(row) {
-	let check;
 	let symbhol;
 
-	while(!check) {
+	while(symbhol) {
 		symbhol = array[row][Math.floor(Math.random() * 11)];
-		if(symbhol) {
-			check = true;
-		}
 	}
 
 	return symbhol;

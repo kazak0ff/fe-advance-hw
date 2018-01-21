@@ -48,7 +48,6 @@ fillArrays(uaArray, "ua");
 fillArrays(ruArray, "ru");
 
 let intLanguages = ["0", "1", "2"];
-let symbholLanguages = ["en", "ru", "ua"];
 let randomRow = ["topRow", "middleRow", "bottomRow"]
 
 while(!keyboard.currentLang) {
@@ -68,7 +67,7 @@ function getRandCharInRow() {
 
 	while(!symbhol) {
 		randomRow = Object.keys(keyboard.layouts.en)[Math.floor(Math.random() * 3)];
-		symbhol = keyboard.layouts[symbholLanguages[keyboard.currentLang]][randomRow][Math.floor(Math.random() * 11)];
+		symbhol = keyboard.layouts[keyboard.langs[keyboard.currentLang]][randomRow][Math.floor(Math.random() * 11)];
 	}
 
 	return symbhol;
