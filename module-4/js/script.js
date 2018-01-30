@@ -20,7 +20,7 @@ function addKeyboardLayout(alphabet) {
 function getRandCharInRow(row) {
 	let symbhol;
 
-	while(symbhol) {
+	while(!symbhol) {
 		symbhol = array[row][Math.floor(Math.random() * 11)];
 	}
 
