@@ -17,8 +17,17 @@
  
  - Чекбокс Sound должен включать и выключать звук нажатия на клавиши. 
 */
+console.log("test");
+const onClick = (event) => {
+  debugger
+	if(event.keyCode.className !== null ) {
+    playSound(event.target.getAttribute("data-note"));
+  }
+}
+ window.addEventListener("keydown", onClick);
 
 const playSound = note => {
+  debugger
   const audio = document.querySelector(`audio[data-note=${note}]`);
   audio.currentTime = 0;
   audio.play();
