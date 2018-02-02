@@ -19,15 +19,28 @@
 */
 console.log("test");
 const onClick = (event) => {
-  debugger
-	if(event.keyCode.className !== null ) {
-    playSound(event.target.getAttribute("data-note"));
+  let key = String.fromCharCode(event.keyCode).toLowerCase();
+  console.log(key);
+	if(keys.includes(key)) {
+    buttons.forEach(element => {
+      if(element.innerText === key) {
+        debugger
+         if(document.querySelector("span").checked = true) {
+          playSound(element.getAttribute("data-note"));
+         }
+        element.classList.add("keyboard__btn--active");
+        setTimeout(() => {
+          element.classList.remove("keyboard__btn--active");
+        }, 200);
+      }
+    });
+  
   }
 }
- window.addEventListener("keydown", onClick);
+
+window.addEventListener("keydown", onClick);
 
 const playSound = note => {
-  debugger
   const audio = document.querySelector(`audio[data-note=${note}]`);
   audio.currentTime = 0;
   audio.play();
