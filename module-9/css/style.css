@@ -193,9 +193,10 @@ embed, img, object, video {
 }
 
 .keyboard__btn {
+  text-align: center;
+  padding-top: 20px;
   display: block;
   outline: 0;
-  padding: 0;
   width: 3.75rem;
   height: 3.75rem;
   margin-right: .5rem;

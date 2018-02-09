@@ -24,24 +24,27 @@ const body = document.querySelector('body');
 const keyboard = document.createElement('div');
 keyboard.className = "keyboard";
 
-let counter = 0;
-let add = 1;
 for(const array of enArray) {
+  let counter = 0;
+  let add = 1;
   const row = document.createElement('div');
   row.className = "keyboard__row";
   for(const symbhol of array) {
-    const but = document.createElement('div');
+    const but = document.createElement('button');
     but.className = "keyboard__btn";
     but.setAttribute('data-note',notes[counter]);
 
     if(symbhol === " ") {
-      but.textContent = "SPACE";
+      but.textContent = "SPACE"
+      but.classList.add("keyboard__btn--space")
+      but.setAttribute('data-note', notes[0])
     } else {
       but.textContent = symbhol;
     }
     row.append(but);
-    if (add === 6 && add === 0) {
-      add *= -1;
+    console.log(counter);
+    if (counter === 6) {
+      add = -1;
     }
     counter += add;
   }
@@ -49,33 +52,32 @@ for(const array of enArray) {
 }
 
 body.append(keyboard);
-// const onClick = (event) => {
-//   let key = String.fromCharCode(event.keyCode).toLowerCase();
-//   console.log(key);
-// 	if(keys.includes(key)) {
-//     buttons.forEach(element => {
-//       if(element.innerText === key) {
-//          if(document.getElementById("slideThree").checked === true) {
-//           playSound(element.getAttribute("data-note"));
-//          }
-//         element.classList.add("keyboard__btn--active");
-//         setTimeout(() => {
-//           element.classList.remove("keyboard__btn--active");
-//         }, 200);
-//       }
-//     });
+
+
+const buttons = Array.from(document.querySelectorAll("button"));
+
+const onClick = (event) => {
+  let key = String.fromCharCode(event.keyCode).toLowerCase();
+  console.log(key);
+	if(lang.en.includes(key)) {
+    buttons.forEach(element => {
+      if(element.innerText === key) {
+          playSound(element.getAttribute("data-note"));
+        element.classList.add("keyboard__btn--active");
+        setTimeout(() => {
+          element.classList.remove("keyboard__btn--active");
+        }, 200);
+      }
+    });
   
-//   }
-// }
+  }
+}
+window.addEventListener("keydown", onClick);
 
-// window.addEventListener("keydown", onClick);
+const playSound = note => {
+  const audio = document.querySelector(`audio[data-note=${note}]`);
+  audio.currentTime = 0;
+  audio.play();
+};
 
-// const playSound = note => {
-//   const audio = document.querySelector(`audio[data-note=${note}]`);
-//   audio.currentTime = 0;
-//   audio.play();
-// };
-
-// const buttons = Array.from(document.querySelectorAll("button"));
-// const keys = "qwertyuiop[]asdfghjkl;'zxcvbnm,./".split("");
 
