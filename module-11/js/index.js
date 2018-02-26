@@ -1,83 +1,124 @@
-const lang = {
-  en: "qwertyuiop[]asdfghjkl;'zxcvbnm,./"
-};
-
-const notes = ['do', 're', 'mi', 'fa', 'sol', 'la', 'si']
-
-function addKeyboardLayout(alphabet, secondIndex, thirdIndex) {
-  let firstString = alphabet.substr(0,alphabet.indexOf(secondIndex));
-  let secondString = alphabet.substr(alphabet.indexOf(secondIndex), alphabet.indexOf(thirdIndex) - alphabet.indexOf(secondIndex));
-
-  let thirdString =  alphabet.substr(alphabet.indexOf(thirdIndex));
-  const firstArray = firstString.split('');
-  const secondArray = secondString.split('');
-
-  const thirdArray = thirdString.split('');
-  const fourth = [" "]
-  return [firstArray, secondArray, thirdArray, fourth];
-}
-
-const enArray = addKeyboardLayout(lang.en, "a", "z");
-
-const body = document.querySelector('body');
-
-const keyboard = document.createElement('div');
-keyboard.className = "keyboard";
-
-for(const array of enArray) {
-  let counter = 0;
-  let add = 1;
-  const row = document.createElement('div');
-  row.className = "keyboard__row";
-  for(const symbhol of array) {
-    const but = document.createElement('button');
-    but.className = "keyboard__btn";
-    but.setAttribute('data-note',notes[counter]);
-
-    if(symbhol === " ") {
-      but.textContent = "SPACE"
-      but.classList.add("keyboard__btn--space")
-      but.setAttribute('data-note', notes[0])
-    } else {
-      but.textContent = symbhol;
-    }
-    row.append(but);
-    console.log(counter);
-    if (counter === 6) {
-      add = -1;
-    }
-    counter += add;
-  }
-  keyboard.append(row);
-}
-
-body.append(keyboard);
-
-
-const buttons = Array.from(document.querySelectorAll("button"));
+let baseUrl = "http://fecore.net.ua/rest";
+let details = document.querySelector(".detail");
 
 const onClick = (event) => {
-  let key = String.fromCharCode(event.keyCode).toLowerCase();
-  console.log(key);
-	if(lang.en.includes(key)) {
-    buttons.forEach(element => {
-      if(element.innerText === key) {
-          playSound(element.getAttribute("data-note"));
-        element.classList.add("keyboard__btn--active");
-        setTimeout(() => {
-          element.classList.remove("keyboard__btn--active");
-        }, 200);
-      }
-    });
-  
+  if (event.target.className == "get") {
+    debugger
+    getUsers();
+  } else if (event.target.className == "add") {
+    debugger
+    addUser(document.getElementById('addName').value, document.getElementById('addScore').value);
+  } else if (event.target.className == "update") {
+    updateUser(document.getElementById('updateId').value, 
+    document.getElementById('updateName').value, 
+    document.getElementById('updateScore').value);
+  } else if (event.target.className == "remove") {
+    removeUser(document.getElementById('removeId').value);
   }
 }
-window.addEventListener("keydown", onClick);
+document.addEventListener("click", onClick);
 
-const playSound = note => {
-  const audio = document.querySelector(`audio[data-note=${note}]`);
-  audio.currentTime = 0;
-  audio.play();
-};
+function fillDetails(array) {
+  debugger
+  details.innerHTML = "";
+  for (const service of array) {
+    debugger
+    let detailTitle = document.createElement('p');
+    detailTitle.classList.add('details__name');
+    detailTitle.textContent = "Details of select Service";
+    details.append(detailTitle);
+    let keys = Object.keys(service);
+    for (const key of keys) {
+      debugger
+      if (Array.isArray(service[key])) {
+        for (const subService of service[key]) {
+          let keys = Object.keys(subService);
+          for (const key of keys) {
+            debugger
+            createKeyParamDivs(key, subService);
+          }
+        }
+      }
+      createKeyParamDivs(key, service);
+    }
+  }
+}
+
+function createKeyParamDivs(key, service) {
+  debugger
+  let keyParam = document.createElement('div');
+  keyParam.classList.add('info-table__details__params__bold')
+  keyParam.textContent = key;
+  let valueParam = document.createElement('div');
+  valueParam.classList.add('info-table__details__params')
+  valueParam.textContent = service[key];
+  details.append(keyParam);
+  details.append(valueParam);
+}
+
+function getUsers() {
+  debugger
+  fetch('http://fecore.net.ua/rest', {
+    method: 'get',
+    headers: new Headers({
+      'Content-Type': 'application/json',
+      'X-Custom-Header': 'custom value'
+    })
+  })
+    .then(dataWrappedByPromise => dataWrappedByPromise.json())
+    .then(data => {
+      debugger
+      futureArray = JSON.parse(JSON.stringify(data));
+      fillDetails(futureArray);
+    })
+}
+
+function addUser(name, score) {
+  debugger
+  fetch(`${baseUrl}/?action=1&name=${name}&score=${score}`, {
+    method: "post",
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'mode': 'no-cors'
+    }
+  })
+    .then(dataWrappedByPromise => dataWrappedByPromise.json())
+    .then(data => {
+      futureArray = JSON.parse(JSON.stringify(data));
+      fillDetails(futureArray);
+    })
+}
 
 
+function updateUser(id, name, score) {
+  fetch(`${baseUrl}/?action=2&id=${id}&name=${name}&score=${score}`, {
+    method: "put",
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'mode': 'no-cors'
+    }
+  })
+    .then(dataWrappedByPromise => dataWrappedByPromise.json())
+    .then(data => {
+      futureArray = JSON.parse(JSON.stringify(data));
+      fillDetails(futureArray);
+    })
+}
+
+function removeUser(id) {
+  fetch(`${baseUrl}/?action=3&id=${id}`, {
+    method: "delete",
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'mode': 'no-cors'
+    }
+  })
+    .then(dataWrappedByPromise => dataWrappedByPromise.json())
+    .then(data => {
+      futureArray = JSON.parse(JSON.stringify(data));
+      fillDetails(futureArray);
+    })
+}
