@@ -57,20 +57,19 @@ function createKeyParamDivs(key, service) {
 }
 
 function getUsers() {
-  debugger
-  fetch('http://fecore.net.ua/rest', {
-    method: 'get',
-    headers: new Headers({
-      'Content-Type': 'application/json',
-      'X-Custom-Header': 'custom value'
+
+  fetch("http://fecore.net.ua/rest/")
+    .then(response => {
+      if (response.ok) return response.json();
+      throw new Error("Error fetching data");
     })
-  })
-    .then(dataWrappedByPromise => dataWrappedByPromise.json())
     .then(data => {
-      debugger
       futureArray = JSON.parse(JSON.stringify(data));
       fillDetails(futureArray);
     })
+    .catch(error => {
+      console.error("Error: ", error);
+    });
 }
 
 function addUser(name, score) {
